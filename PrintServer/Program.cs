@@ -10,6 +10,8 @@ namespace PrintServer
     {
         static void Main(string[] args)
         {
+            HttpServer server = new HttpServer();
+            Console.Read();
         }
     }
 }
