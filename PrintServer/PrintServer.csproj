@@ -32,6 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DYMO.Label.Framework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5426002a38745af9, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HttpServer.cs" />
+    <Compile Include="LabelPrintJob.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

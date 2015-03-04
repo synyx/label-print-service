@@ -30,10 +30,11 @@
             try
             {
                 context = httpListener.EndGetContext(result);
-                String requestInput = context.Request.ToString();
-                System.Console.WriteLine("Input: " + requestInput);
-                byte[] chars = System.Text.Encoding.ASCII.GetBytes("Hello");
 
+                String requestInput = context.Request.ToString();
+                new LabelPrintJob(context.Request.QueryString.Get("label")).print();
+                
+                byte[] chars = System.Text.Encoding.ASCII.GetBytes("Hello");
                 HttpListenerRequest request = context.Request;
                 context.Response.OutputStream.Write(chars, 0, chars.Length);
                 context.Response.Close();
