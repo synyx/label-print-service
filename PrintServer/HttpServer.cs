@@ -32,11 +32,27 @@
                 context = httpListener.EndGetContext(result);
 
                 String requestInput = context.Request.ToString();
-                new LabelPrintJob(context.Request.QueryString.Get("label")).print();
+
+                String label = context.Request.QueryString.Get("label");
+
+                if (label == null || label.Length == 0)
+                {
+                    byte[] chars = System.Text.Encoding.ASCII.GetBytes("Gib'n Label an, du Honk");
+                    HttpListenerRequest request = context.Request;
+                    context.Response.StatusCode = 400;
+                    context.Response.OutputStream.Write(chars, 0, chars.Length);
+                }
+                else
+                {
+                    String tape = context.Request.QueryString.Get("tape");
+                    if (tape == null) { new LabelPrintJob(label).print();}
+                    else { new LabelPrintJob(label, tape).print(); }
+
+                    byte[] chars = System.Text.Encoding.ASCII.GetBytes("Penis");
+                    HttpListenerRequest request = context.Request;
+                    context.Response.OutputStream.Write(chars, 0, chars.Length);
+                }
                 
-                byte[] chars = System.Text.Encoding.ASCII.GetBytes("Hello");
-                HttpListenerRequest request = context.Request;
-                context.Response.OutputStream.Write(chars, 0, chars.Length);
                 context.Response.Close();
             }
             catch (HttpListenerException e)
