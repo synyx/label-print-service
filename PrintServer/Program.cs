@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PrintServer
 {
@@ -10,7 +6,19 @@ namespace PrintServer
     {
         static void Main(string[] args)
         {
-            HttpServer server = new HttpServer();
+            if (args.Length == 1)
+            {
+                HttpServer server = new HttpServer(bindAddress: args[0]);
+            }
+            else if (args.Length == 2)
+            {
+                HttpServer server = new HttpServer(bindAddress: args[0], port: Convert.ToInt32(args[1]));
+            }
+            else
+            {
+                HttpServer server = new HttpServer();
+            }
+
             Console.Read();
         }
     }
