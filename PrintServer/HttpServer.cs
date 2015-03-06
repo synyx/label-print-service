@@ -12,8 +12,7 @@
             httpListener = new HttpListener();
             httpListener.Prefixes.Add(string.Format("http://{0}:{1}/print/", bindAddress, port));
             httpListener.Start();
-            Console.WriteLine(string.Format("Web server running on {0}, port {1}.. Press ^C to stop..", bindAddress, port));
-            lala();
+            System.Diagnostics.Trace.WriteLine(string.Format("Web server configured on {0}, port {1}", bindAddress, port));
         }
 
         private void lala()
@@ -21,6 +20,16 @@
             IAsyncResult result = httpListener.BeginGetContext(new AsyncCallback(listenerCallback), httpListener);
             result.AsyncWaitHandle.WaitOne();
             lala();
+        }
+
+        public void start()
+        {
+            lala();
+        }
+
+        public void stop()
+        {
+            httpListener.Stop();
         }
 
         private void listenerCallback(IAsyncResult result) 
