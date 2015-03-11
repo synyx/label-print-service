@@ -8,7 +8,7 @@
         private HttpListener httpListener;
         private bool _disposed = false;
 
-        public HttpServer(String bindAddress = "localhost", int port = 8080)
+        public HttpServer(String bindAddress = "*", int port = 80)
         {
             httpListener = new HttpListener();
             httpListener.Prefixes.Add(string.Format("http://{0}:{1}/print/", bindAddress, port));
