@@ -44,7 +44,7 @@
 
                 if (label == null || label.Length == 0)
                 {
-                    byte[] chars = System.Text.Encoding.ASCII.GetBytes("Gib'n Label an, du Honk");
+                    byte[] chars = System.Text.Encoding.ASCII.GetBytes("You should provide a label..");
                     HttpListenerRequest request = context.Request;
                     context.Response.StatusCode = 400;
                     context.Response.OutputStream.Write(chars, 0, chars.Length);
@@ -55,7 +55,7 @@
                     if (tape == null) { new LabelPrintJob(label).print();}
                     else { new LabelPrintJob(label, tape).print(); }
 
-                    byte[] chars = System.Text.Encoding.ASCII.GetBytes("Penis");
+                    byte[] chars = System.Text.Encoding.ASCII.GetBytes("Printing label: " + label);
                     HttpListenerRequest request = context.Request;
                     context.Response.OutputStream.Write(chars, 0, chars.Length);
                 }
