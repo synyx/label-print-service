@@ -3,16 +3,17 @@
     using System;
     using System.Net;
 
-    class HttpServer
+    class HttpServer : IDisposable
     {
         private HttpListener httpListener;
+        private bool _disposed = false;
 
         public HttpServer(String bindAddress = "localhost", int port = 8080)
         {
             httpListener = new HttpListener();
             httpListener.Prefixes.Add(string.Format("http://{0}:{1}/print/", bindAddress, port));
             httpListener.Start();
-            System.Diagnostics.Trace.WriteLine(string.Format("Web server configured on {0}, port {1}", bindAddress, port));
+            //System.Diagnostics.Trace.WriteLine(string.Format("Web server configured on {0}, port {1}", bindAddress, port));
         }
 
         private void lala()
@@ -67,6 +68,26 @@
             catch (HttpListenerException e)
             {
                 System.Diagnostics.Debug.WriteLine(e.ToString());
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        public virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+
+                    httpListener.Close();
+                    httpListener = null;
+                }
+                _disposed = true;
             }
         }
     }

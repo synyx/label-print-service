@@ -22,6 +22,12 @@ namespace PrintServer
 
         protected override void OnStart(string[] args)
         {
+            Thread thread = new Thread(new ThreadStart(() => ThreadStarter(args)));
+            thread.Start();
+        }
+
+        private void ThreadStarter(string[] args)
+        {
             if (args.Length == 1)
             {
                 server = new HttpServer(bindAddress: args[0]);
@@ -34,14 +40,16 @@ namespace PrintServer
             {
                 server = new HttpServer();
             }
-
-            Thread thread = new Thread(new ThreadStart(server.start));
-            thread.Start();
+            server.start();
         }
 
         protected override void OnStop()
         {
-            server.stop();
+            if (server != null)
+            {
+                server.stop();
+                server.Dispose();
+            }
         }
     }
 }
