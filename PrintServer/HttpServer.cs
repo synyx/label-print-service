@@ -13,19 +13,11 @@
             httpListener = new HttpListener();
             httpListener.Prefixes.Add(string.Format("http://{0}:{1}/print/", bindAddress, port));
             httpListener.Start();
-            //System.Diagnostics.Trace.WriteLine(string.Format("Web server configured on {0}, port {1}", bindAddress, port));
-        }
-
-        private void lala()
-        {
-            IAsyncResult result = httpListener.BeginGetContext(new AsyncCallback(listenerCallback), httpListener);
-            result.AsyncWaitHandle.WaitOne();
-            lala();
         }
 
         public void start()
         {
-            lala();
+            awaitRequest();
         }
 
         public void stop()
@@ -33,15 +25,20 @@
             httpListener.Stop();
         }
 
-        private void listenerCallback(IAsyncResult result) 
+        private void awaitRequest()
+        {
+            IAsyncResult result = httpListener.BeginGetContext(new AsyncCallback(processRequest), httpListener);
+            result.AsyncWaitHandle.WaitOne();
+            awaitRequest();
+        }
+
+        private void processRequest(IAsyncResult result)
         {
             HttpListenerContext context;
 
             try
             {
                 context = httpListener.EndGetContext(result);
-
-                String requestInput = context.Request.ToString();
 
                 String label = context.Request.QueryString.Get("label");
 
